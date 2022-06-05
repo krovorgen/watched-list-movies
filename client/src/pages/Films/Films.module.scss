@@ -24,3 +24,16 @@
     display: inline;
   }
 }
+
+.tr {
+  padding-top: 1px;
+  width: 100%;
+  background-color: #fff;
+  transition: background-color 0.2s;
+
+  &:first-child {
+    td {
+      border-top: 0;
+    }
+  }
+}

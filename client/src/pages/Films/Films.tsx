@@ -16,7 +16,7 @@ export const Films = () => {
   const moviesListMemo = useMemo(
     () =>
       root.films.map((row) => (
-        <Table.TRow key={row.id}>
+        <tr className={styles.tr} key={row.id}>
           <Table.TCell>{row.movie}</Table.TCell>
           <Table.TCell>{row.rating}</Table.TCell>
           <Table.TCell>
@@ -29,7 +29,7 @@ export const Films = () => {
             <Button size="xxs" view="secondary" rightAddons={<EditMBlackIcon />} />
             <Button size="xxs" view="primary" rightAddons={<DeleteSWhiteIcon />} />
           </Table.TCell>
-        </Table.TRow>
+        </tr>
       )),
     [root],
   );
