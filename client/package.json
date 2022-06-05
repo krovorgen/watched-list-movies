@@ -4,8 +4,8 @@
   "license": "MIT",
   "source": "src/index.html",
   "scripts": {
-    "dev": "rm -rf dist & parcel -p 3000 --no-cache --open chrome",
-    "build": "rm -rf dist & parcel build"
+    "dev": "rm -rf ../dist & parcel -p 3000 --no-cache --open chrome",
+    "build": "rm -rf ../dist & parcel build"
   },
   "dependencies": {
     "@alfalab/core-components": "^27.3.0",

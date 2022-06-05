@@ -10,9 +10,9 @@ import { EditMBlackIcon } from '@alfalab/icons-classic/EditMBlackIcon';
 import kinopoisk from '../../assets/images/kinopoisk.webp';
 import root from './films.json';
 
-import styles from './Root.module.scss';
+import styles from './Films.module.scss';
 
-export const Root = () => {
+export const Films = () => {
   const moviesListMemo = useMemo(
     () =>
       root.films.map((row) => (
@@ -41,7 +41,7 @@ export const Root = () => {
       </Typography.Title>
       <Table>
         <Table.THead>
-          <Table.THeadCell>Фильм</Table.THeadCell>
+          <Table.THeadCell>Название</Table.THeadCell>
           <Table.THeadCell width={100} textAlign="center">
             Оценка
           </Table.THeadCell>
