@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import { AppRoutes } from './helpers/routes';
 import { Root } from './pages/Root';
 import { NotFound } from './pages/NotFound';
-import {Films} from "./pages/Films";
+import { Films } from './pages/Films';
 
 export const App = () => {
   return (
@@ -13,4 +13,3 @@ export const App = () => {
     </Routes>
   );
 };
-

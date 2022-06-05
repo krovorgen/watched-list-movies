@@ -1,9 +1,8 @@
 import React from 'react';
-import {Link} from "react-router-dom";
-import {AppRoutes} from "../../helpers/routes";
+import { Link } from 'react-router-dom';
+import { AppRoutes } from '../../helpers/routes';
 
 export const Root = () => {
-
   return (
     <>
       <Link to={AppRoutes.Films}>Films</Link>
