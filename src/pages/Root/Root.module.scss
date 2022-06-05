@@ -1,0 +1,26 @@
+@import "./src/scss/helpers/variables";
+@import "./src/scss/helpers/mixins";
+
+.title {
+  margin-bottom: 16px;
+  text-align: center;
+
+  @include media($sm) {
+    margin-bottom: 8px;
+    font-size: 20px;
+  }
+}
+
+.nav {
+  button {
+    &:not(:last-child) {
+      margin-right: 8px;
+    }
+  }
+}
+
+.kinopoisk {
+  img {
+    display: inline;
+  }
+}
