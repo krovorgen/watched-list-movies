@@ -1,2 +1,32 @@
-@import "../../scss/helpers/variables";
-@import "../../scss/helpers/mixins";
+@import "./src/scss/helpers/variables";
+@import "./src/scss/helpers/mixins";
+
+.items {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.item {
+  height: 100%;
+  background-color: #bbb;
+
+  &:not(:last-child) {
+    .link {
+      border-bottom-width: 1px;
+    }
+  }
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  border: 4px solid #ccc;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(#ccc, 0.2);
+  }
+}
