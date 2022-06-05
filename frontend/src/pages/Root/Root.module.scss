@@ -13,7 +13,7 @@
 
   &:not(:last-child) {
     .link {
-      border-bottom-width: 1px;
+      border-bottom-width: 0;
     }
   }
 }
