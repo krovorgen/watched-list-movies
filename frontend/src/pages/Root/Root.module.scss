@@ -8,8 +8,20 @@
 }
 
 .item {
+  position: relative;
   height: 100%;
+  overflow: hidden;
   background-color: #bbb;
+
+  @include media($sm) {
+    background-color: #000;
+  }
+
+  &:hover {
+    .link {
+      border-color: transparent;
+    }
+  }
 
   &:not(:last-child) {
     .link {
@@ -18,25 +30,43 @@
   }
 }
 
+.video {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60%;
+  z-index: 0;
+  width: 100%;
+  transform: translateY(-50%);
+
+  @include media($sm) {
+    top: 50%;
+  }
+}
+
 .link {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
-  border: 4px solid #ccc;
+  border: 4px solid #9f9f9f;
   font-weight: 700;
   font-size: 60px;
   letter-spacing: 20px;
   text-transform: uppercase;
   color: #fff;
+  background-color: rgba(#ccc, 0.2);
   cursor: pointer;
 
   @include media($sm) {
+    border-color: transparent;
     font-size: 40px;
     letter-spacing: 0;
   }
 
   &:hover {
-    background-color: rgba(#ccc, 0.2);
+    background-color: transparent;
   }
 }
