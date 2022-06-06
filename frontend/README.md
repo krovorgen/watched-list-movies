@@ -1,1 +1,1 @@
-Template parcel2 + react18
+react18
