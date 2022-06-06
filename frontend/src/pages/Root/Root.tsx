@@ -1,10 +1,10 @@
 import React, { MouseEvent, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-import { AppRoutes } from '../../helpers/routes';
-import misfits from '../../assets/videos/misfits.webm';
-import legend from '../../assets/videos/legend.webm';
-import walle from '../../assets/videos/walle.webm';
+import { AppRoutes } from 'helpers/routes';
+import misfits from 'assets/videos/misfits.webm';
+import legend from 'assets/videos/legend.webm';
+import walle from 'assets/videos/walle.webm';
 
 import styles from './Root.module.scss';
 
