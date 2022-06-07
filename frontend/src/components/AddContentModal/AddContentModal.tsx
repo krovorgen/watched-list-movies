@@ -30,7 +30,6 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
   const [calendarValue, setCalendarValue] = useState(dayjs(new Date()).format('DD.MM.YYYY'));
   const calendarHandleChange = (_: any, { value }: { value: string }) => {
     setCalendarValue(value);
-    // console.log(dayjs(ratingValue, 'DD.MM.YYYY').toDate());
   };
 
   const CustomField = (props: FieldProps) => (
@@ -67,6 +66,7 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
       linkKinopoisk: { value: string };
       linkTikTok: { value: string };
     };
+
     console.log(
       title.value,
       ratingValue,
