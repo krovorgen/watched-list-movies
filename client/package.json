@@ -4,7 +4,7 @@
   "license": "MIT",
   "source": "src/index.html",
   "scripts": {
-    "dev": "rm -rf ../dist & parcel -p 3000 --no-cache --open chrome",
+    "dev": "parcel -p 3000 --no-cache --open chrome",
     "build": "rm -rf ../dist & parcel build"
   },
   "dependencies": {
