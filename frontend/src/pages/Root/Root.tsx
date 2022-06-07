@@ -1,4 +1,4 @@
-import React, { MouseEvent, useCallback } from 'react';
+import React, { MouseEvent, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoutes } from 'helpers/routes';
@@ -35,10 +35,11 @@ export const Root = () => {
     (e.currentTarget.children.item(0) as HTMLVideoElement).pause();
   }, []);
 
-  return (
-    <ul className={styles.items}>
-      {linksData.map((item) => (
+  const linksDataMemo = useMemo(
+    () =>
+      linksData.map((item) => (
         <li
+          key={Math.random()}
           className={styles.item}
           onMouseOver={mouseOverVideoHandler}
           onMouseOut={mouseOutVideoHandler}>
@@ -47,7 +48,9 @@ export const Root = () => {
             {item.linkTitle}
           </Link>
         </li>
-      ))}
-    </ul>
+      )),
+    [mouseOutVideoHandler, mouseOverVideoHandler],
   );
+
+  return <ul className={styles.items}>{linksDataMemo}</ul>;
 };

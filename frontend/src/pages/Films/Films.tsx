@@ -39,6 +39,9 @@ export const Films = () => {
       <Typography.Title view="xlarge" tag="h1" className={styles.title}>
         Список просмотренных фильмов
       </Typography.Title>
+      <Button className={styles.add} block view="link">
+        Добавить
+      </Button>
       <Table>
         <Table.THead>
           <Table.THeadCell>Название</Table.THeadCell>
