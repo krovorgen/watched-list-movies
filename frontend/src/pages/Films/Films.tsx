@@ -6,10 +6,14 @@ import { Table } from '@alfalab/core-components/table';
 import { Button } from '@alfalab/core-components/button';
 import { DeleteSWhiteIcon } from '@alfalab/icons-classic/DeleteSWhiteIcon';
 import { EditMBlackIcon } from '@alfalab/icons-classic/EditMBlackIcon';
+import { OkMColorIcon } from '@alfalab/icons-classic/OkMColorIcon';
+import { CancelMColorIcon } from '@alfalab/icons-classic/CancelMColorIcon';
+import { AttentionMColorIcon } from '@alfalab/icons-classic/AttentionMColorIcon';
+import { Tooltip } from '@alfalab/core-components/tooltip';
 
 import kinopoisk from '../../assets/images/kinopoisk.webp';
+import tiktok from '../../assets/images/tiktok.svg';
 import root from './films.json';
-import { OkMColorIcon } from '@alfalab/icons-classic/OkMColorIcon';
 
 import styles from './Films.module.scss';
 
@@ -17,9 +21,17 @@ type ContentType = {
   id: number;
   movie: string;
   rating: number;
-  link: string;
+  linkKinopoisk: string;
+  linkTikTok: string;
   viewed: string;
-  status: 'complete' | 'in-progress' | 'waiting';
+  status: 'complete' | 'inProgress' | 'waiting';
+  statusText: string;
+};
+
+const iconStatus = {
+  complete: <OkMColorIcon />,
+  inProgress: <AttentionMColorIcon />,
+  waiting: <CancelMColorIcon />,
 };
 
 type DataType = {
@@ -33,15 +45,26 @@ export const Films = () => {
         <Table.TRow className={styles.tr} key={row.id}>
           <Table.TCell>{row.movie}</Table.TCell>
           <Table.TCell>
-            <span title="Просмотрено">
-              <OkMColorIcon xlinkTitle="Просмотрено" />
-            </span>
+            <Tooltip
+              content={row.statusText}
+              position="top"
+              view="hint"
+              targetClassName={styles.tooltip}>
+              {iconStatus[row.status]}
+            </Tooltip>
           </Table.TCell>
           <Table.TCell>{row.rating}</Table.TCell>
           <Table.TCell>
-            <a className={styles.kinopoisk} href={row.link} target="_blank" rel="noreferrer">
-              <img src={kinopoisk} width={20} height={20} alt="kinopoisk" />
-            </a>
+            {row.linkKinopoisk ? (
+              <a className={styles.link} href={row.linkKinopoisk} target="_blank" rel="noreferrer">
+                <img src={kinopoisk} width={20} height={20} alt="kinopoisk" />
+              </a>
+            ) : null}
+            {row.linkTikTok ? (
+              <a className={styles.link} href={row.linkTikTok} target="_blank" rel="noreferrer">
+                <img src={tiktok} width={20} height={20} alt="tiktok" />
+              </a>
+            ) : null}
           </Table.TCell>
           <Table.TCell>{dayjs(row.viewed).locale(ru).format('DD MMMM YYYY')}</Table.TCell>
           <Table.TCell className={styles.nav}>
