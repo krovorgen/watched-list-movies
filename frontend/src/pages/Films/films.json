@@ -5,21 +5,8 @@
       "movie": "Человек паук",
       "rating": 5,
       "link": "https://www.kinopoisk.ru/film/838/",
-      "viewed": "2022-06-05T13:57:10.215Z"
-    },
-    {
-      "id": 0.08982795449018166,
-      "movie": "Человек паук 2",
-      "rating": 7,
-      "link": "https://www.kinopoisk.ru/film/838/",
-      "viewed": "2022-06-05T13:57:10.215Z"
-    },
-    {
-      "id": 0.16404156941178338,
-      "movie": "Человек паук высокое напряжение",
-      "rating": 10,
-      "link": "https://www.kinopoisk.ru/film/838/",
-      "viewed": "2022-06-05T13:57:10.215Z"
+      "viewed": "2022-06-05T13:57:10.215Z",
+      "status": "complete"
     }
   ]
 }

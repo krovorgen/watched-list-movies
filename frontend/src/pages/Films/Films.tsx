@@ -9,15 +9,34 @@ import { EditMBlackIcon } from '@alfalab/icons-classic/EditMBlackIcon';
 
 import kinopoisk from '../../assets/images/kinopoisk.webp';
 import root from './films.json';
+import { OkMColorIcon } from '@alfalab/icons-classic/OkMColorIcon';
 
 import styles from './Films.module.scss';
+
+type ContentType = {
+  id: number;
+  movie: string;
+  rating: number;
+  link: string;
+  viewed: string;
+  status: 'complete' | 'in-progress' | 'waiting';
+};
+
+type DataType = {
+  films: ContentType[];
+};
 
 export const Films = () => {
   const moviesListMemo = useMemo(
     () =>
-      root.films.map((row) => (
+      (root as DataType).films.map((row) => (
         <Table.TRow className={styles.tr} key={row.id}>
           <Table.TCell>{row.movie}</Table.TCell>
+          <Table.TCell>
+            <span title="Просмотрено">
+              <OkMColorIcon xlinkTitle="Просмотрено" />
+            </span>
+          </Table.TCell>
           <Table.TCell>{row.rating}</Table.TCell>
           <Table.TCell>
             <a className={styles.kinopoisk} href={row.link} target="_blank" rel="noreferrer">
@@ -45,6 +64,9 @@ export const Films = () => {
       <Table>
         <Table.THead>
           <Table.THeadCell>Название</Table.THeadCell>
+          <Table.THeadCell width={100} textAlign="center">
+            Статус
+          </Table.THeadCell>
           <Table.THeadCell width={100} textAlign="center">
             Оценка
           </Table.THeadCell>
