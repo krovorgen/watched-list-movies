@@ -11,7 +11,6 @@ type RatingProps = {
 };
 
 export const Rating: FC<RatingProps> = memo(({ value, onClick }) => {
-  console.log('Rating');
   const memoStars = useMemo(
     () =>
       Array(10)

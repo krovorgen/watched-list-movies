@@ -18,6 +18,12 @@ import root from './films.json';
 import styles from './Films.module.scss';
 import { AddContentModal } from '../../components/AddContentModal';
 
+export enum StatusViewed {
+  complete = 'complete',
+  inProgress = 'inProgress',
+  waiting = 'waiting',
+}
+
 type ContentType = {
   id: number;
   title: string;
@@ -25,11 +31,11 @@ type ContentType = {
   linkKinopoisk: string;
   linkTikTok: string;
   viewed: string;
-  status: 'complete' | 'inProgress' | 'waiting';
+  status: StatusViewed;
   statusText: string;
 };
 
-const iconStatus = {
+export const iconStatus = {
   complete: <OkMColorIcon />,
   inProgress: <AttentionMColorIcon />,
   waiting: <CancelMColorIcon />,
