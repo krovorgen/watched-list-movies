@@ -1,25 +1,26 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import ru from 'dayjs/locale/ru';
 import { Typography } from '@alfalab/core-components/typography';
-import { Table } from '@alfalab/core-components/table';
+import { Tooltip } from '@alfalab/core-components/tooltip';
 import { Button } from '@alfalab/core-components/button';
+import { Table } from '@alfalab/core-components/table';
+import { AttentionMColorIcon } from '@alfalab/icons-classic/AttentionMColorIcon';
 import { DeleteSWhiteIcon } from '@alfalab/icons-classic/DeleteSWhiteIcon';
+import { CancelMColorIcon } from '@alfalab/icons-classic/CancelMColorIcon';
 import { EditMBlackIcon } from '@alfalab/icons-classic/EditMBlackIcon';
 import { OkMColorIcon } from '@alfalab/icons-classic/OkMColorIcon';
-import { CancelMColorIcon } from '@alfalab/icons-classic/CancelMColorIcon';
-import { AttentionMColorIcon } from '@alfalab/icons-classic/AttentionMColorIcon';
-import { Tooltip } from '@alfalab/core-components/tooltip';
 
 import kinopoisk from '../../assets/images/kinopoisk.webp';
 import tiktok from '../../assets/images/tiktok.svg';
 import root from './films.json';
 
 import styles from './Films.module.scss';
+import { AddContentModal } from '../../components/AddContentModal';
 
 type ContentType = {
   id: number;
-  movie: string;
+  title: string;
   rating: number;
   linkKinopoisk: string;
   linkTikTok: string;
@@ -39,11 +40,14 @@ type DataType = {
 };
 
 export const Films = () => {
+  const [isAddContentModal, setIsAddContentModal] = useState(false);
+  const handleAddContent = useCallback(() => setIsAddContentModal((v) => !v), []);
+
   const moviesListMemo = useMemo(
     () =>
       (root as DataType).films.map((row) => (
         <Table.TRow className={styles.tr} key={row.id}>
-          <Table.TCell>{row.movie}</Table.TCell>
+          <Table.TCell>{row.title}</Table.TCell>
           <Table.TCell>
             <Tooltip
               content={row.statusText}
@@ -81,7 +85,7 @@ export const Films = () => {
       <Typography.Title view="xlarge" tag="h1" className={styles.title}>
         Список просмотренных фильмов
       </Typography.Title>
-      <Button className={styles.add} block view="link">
+      <Button className={styles.add} block view="link" onClick={handleAddContent}>
         Добавить
       </Button>
       <Table>
@@ -99,10 +103,13 @@ export const Films = () => {
           <Table.THeadCell width={150} textAlign="center">
             Просмотрен
           </Table.THeadCell>
-          <Table.THeadCell width={200}>Управление</Table.THeadCell>
+          <Table.THeadCell width={150} textAlign="center">
+            Управление
+          </Table.THeadCell>
         </Table.THead>
         <Table.TBody>{root.films.length > 0 && moviesListMemo}</Table.TBody>
       </Table>
+      <AddContentModal isAddContentModal={isAddContentModal} handleAddContent={handleAddContent} />
     </>
   );
 };

@@ -2,7 +2,7 @@
   "films": [
     {
       "id": 0.3316502416170699,
-      "movie": "Человек паук",
+      "title": "Человек паук",
       "rating": 5,
       "linkKinopoisk": "https://www.kinopoisk.ru/film/838/",
       "linkTikTok": "https://www.tiktok.com/@rish_art/video/7103834874737478913?is_copy_url=1&is_from_webapp=v1",
@@ -12,7 +12,7 @@
     },
     {
       "id": 0.33165024161703699,
-      "movie": "Человек паук",
+      "title": "Человек паук",
       "rating": 5,
       "linkKinopoisk": "https://www.kinopoisk.ru/film/838/",
       "linkTikTok": "https://www.tiktok.com/@rish_art/video/7103834874737478913?is_copy_url=1&is_from_webapp=v1",
@@ -22,7 +22,7 @@
     },
     {
       "id": 0.33165024136170699,
-      "movie": "Человек паук",
+      "title": "Человек паук",
       "rating": 5,
       "linkKinopoisk": "https://www.kinopoisk.ru/film/838/",
       "linkTikTok": "https://www.tiktok.com/@rish_art/video/7103834874737478913?is_copy_url=1&is_from_webapp=v1",
