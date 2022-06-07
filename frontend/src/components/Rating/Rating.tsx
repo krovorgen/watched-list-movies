@@ -1,33 +1,34 @@
-import React, { FC } from 'react';
+import React, { FC, memo, useMemo } from 'react';
+import cn from 'classnames';
 
 import styles from './Rating.module.scss';
 
-export type RatingValueType = 0 | 1 | 2 | 3 | 4 | 5;
+export type RatingValueType = number;
 
-export type RatingProps = {
+type RatingProps = {
   value: RatingValueType;
   onClick: (value: RatingValueType) => void;
 };
 
-export const Rating: FC<RatingProps> = ({ value, onClick }) => {
-  return (
-    <>
-      <Star selected={value > 0} onClick={() => onClick(1)} />
-      <Star selected={value > 1} onClick={() => onClick(2)} />
-      <Star selected={value > 2} onClick={() => onClick(3)} />
-      <Star selected={value > 3} onClick={() => onClick(4)} />
-      <Star selected={value > 4} onClick={() => onClick(5)} />
-    </>
+export const Rating: FC<RatingProps> = memo(({ value, onClick }) => {
+  console.log('Rating');
+  const memoStars = useMemo(
+    () =>
+      Array(10)
+        .fill(0)
+        .map((el, index) => (
+          <Star key={index} selected={value >= index + 1} onClick={() => onClick(index + 1)} />
+        )),
+    [onClick, value],
   );
-};
+  return <div className={styles.root}>{memoStars}</div>;
+});
 
 type StarProps = {
   selected: boolean;
   onClick: () => void;
 };
 
-const Star: FC<StarProps> = ({ selected, onClick }) => {
-  return (
-    <span className={`${styles['star']} ${selected && styles['star--active']}`} onClick={onClick} />
-  );
-};
+const Star: FC<StarProps> = memo(({ selected, onClick }) => (
+  <span className={cn(styles.star, { [styles.active]: selected })} onClick={onClick} />
+));

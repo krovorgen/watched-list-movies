@@ -1,21 +1,31 @@
 @import "./src/scss/helpers/variables";
 @import "./src/scss/helpers/mixins";
 
+.root {
+  display: flex;
+  justify-content: space-between;
+}
+
 .star {
   display: inline-block;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-image: url("../../assets/images/Rating/disable-star.png");
   background-size: cover;
   background-repeat: no-repeat;
   cursor: pointer;
-}
 
-.star:not(:last-child) {
-  margin-right: 5px;
-}
+  @include media($sm) {
+    width: 24px;
+    height: 24px;
+  }
 
-.star--active {
-  opacity: 1;
-  background-image: url("../../assets/images/Rating/active-star.png");
+  &:not(:last-child) {
+    margin-right: 4px;
+  }
+
+  &.active {
+    opacity: 1;
+    background-image: url("../../assets/images/Rating/active-star.png");
+  }
 }
