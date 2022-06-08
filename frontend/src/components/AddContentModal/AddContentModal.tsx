@@ -27,6 +27,7 @@ type Props = {
 
 export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddContent }) => {
   const [ratingValue, setRatingValue] = useState<RatingValueType>(0);
+  const [loadingBtn, setLoadingBtn] = useState(false);
 
   const [calendarValue, setCalendarValue] = useState(dayjs(new Date()).format('DD.MM.YYYY'));
   const calendarHandleChange = (_: any, { value }: { value: string }) => {
@@ -73,15 +74,23 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
     if (linkTikTok.value !== '') validateUrl(linkTikTok.value);
     if (linkKinopoisk.value !== '') validateUrl(linkKinopoisk.value);
 
-    await axios.post(`http://localhost:4000/api/cinematography`, {
-      title: title.value,
-      rating: ratingValue,
-      linkKinopoisk: linkKinopoisk.value,
-      linkTikTok: linkTikTok.value,
-      viewed: dayjs(calendarValue, 'DD.MM.YYYY').toDate(),
-      status: status.value,
-      statusText: statusText.value,
-    });
+    try {
+      setLoadingBtn(true);
+      await axios.post(`http://localhost:4000/api/cinematography`, {
+        type: 'films',
+        title: title.value,
+        rating: ratingValue,
+        linkKinopoisk: linkKinopoisk.value,
+        linkTikTok: linkTikTok.value,
+        viewed: dayjs(calendarValue, 'DD.MM.YYYY').toDate(),
+        status: status.value,
+        statusText: statusText.value,
+      });
+      handleAddContent();
+    } catch (e) {
+    } finally {
+      setLoadingBtn(false);
+    }
   };
   return (
     <ModalResponsive open={isAddContentModal} onClose={handleAddContent} size="m">
@@ -110,7 +119,7 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
 
           <CalendarInput value={calendarValue} onChange={calendarHandleChange} block />
 
-          <Button view="primary" size="s" type="submit" block>
+          <Button view="primary" size="s" type="submit" loading={loadingBtn} block>
             Отправить
           </Button>
         </form>

@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CinematographyService } from './cinematography.service';
+import { CreateCinematographyDto } from './dto/create-cinematography.dto';
 
 @Controller('api/cinematography')
 export class CinematographyController {
@@ -21,8 +22,12 @@ export class CinematographyController {
   }
 
   @Post()
-  createCinematography(@Body() body) {
-    return { id: Math.random(), ...body };
+  createCinematography(
+    @Body() createCinematographyDto: CreateCinematographyDto,
+  ) {
+    return this.cinematographyService.createCinematography(
+      createCinematographyDto,
+    );
   }
 }
 

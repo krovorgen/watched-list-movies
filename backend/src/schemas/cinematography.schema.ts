@@ -33,7 +33,7 @@ export class Cinematography {
   linkTikTok: string;
 
   @Prop({ default: new Date() })
-  viewed: string;
+  viewed: Date;
 
   @Prop({ default: StatusViewed.complete })
   status: StatusViewed;

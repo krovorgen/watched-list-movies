@@ -6,29 +6,36 @@ import {
   CinematographyType,
 } from '../schemas/cinematography.schema';
 import { Model } from 'mongoose';
+import { CreateCinematographyDto } from './dto/create-cinematography.dto';
 
 @Injectable()
 export class CinematographyService {
   constructor(
     @InjectModel(Cinematography.name)
-    private cinematographyModel: Model<CinematographyDocument>,
+    private cinematographyRepository: Model<CinematographyDocument>,
   ) {}
 
   async getFilms(): Promise<Cinematography[]> {
-    return await this.cinematographyModel
+    return await this.cinematographyRepository
       .find({ type: CinematographyType.films })
       .exec();
   }
 
   async getSerials(): Promise<Cinematography[]> {
-    return await this.cinematographyModel
+    return await this.cinematographyRepository
       .find({ type: CinematographyType.serials })
       .exec();
   }
 
   async getCartoons(): Promise<Cinematography[]> {
-    return await this.cinematographyModel
+    return await this.cinematographyRepository
       .find({ type: CinematographyType.cartoon })
       .exec();
+  }
+
+  async createCinematography(createCinematographyDto: CreateCinematographyDto) {
+    return await new this.cinematographyRepository(
+      createCinematographyDto,
+    ).save();
   }
 }
