@@ -1,4 +1,5 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
 import dayjs from 'dayjs';
 import ru from 'dayjs/locale/ru';
 import { Typography } from '@alfalab/core-components/typography';
@@ -13,10 +14,9 @@ import { OkMColorIcon } from '@alfalab/icons-classic/OkMColorIcon';
 
 import kinopoisk from '../../assets/images/kinopoisk.webp';
 import tiktok from '../../assets/images/tiktok.svg';
-import root from './films.json';
+import { AddContentModal } from '../../components/AddContentModal';
 
 import styles from './Films.module.scss';
-import { AddContentModal } from '../../components/AddContentModal';
 
 export enum StatusViewed {
   complete = 'complete',
@@ -24,7 +24,13 @@ export enum StatusViewed {
   waiting = 'waiting',
 }
 
-type ContentType = {
+export const iconStatus = {
+  complete: <OkMColorIcon />,
+  inProgress: <AttentionMColorIcon />,
+  waiting: <CancelMColorIcon />,
+};
+
+type DataType = {
   id: number;
   title: string;
   rating: number;
@@ -35,23 +41,15 @@ type ContentType = {
   statusText: string;
 };
 
-export const iconStatus = {
-  complete: <OkMColorIcon />,
-  inProgress: <AttentionMColorIcon />,
-  waiting: <CancelMColorIcon />,
-};
-
-type DataType = {
-  films: ContentType[];
-};
-
 export const Films = () => {
+  const [root, setRoot] = useState<DataType[]>([]);
+
   const [isAddContentModal, setIsAddContentModal] = useState(false);
   const handleAddContent = useCallback(() => setIsAddContentModal((v) => !v), []);
 
   const moviesListMemo = useMemo(
     () =>
-      (root as DataType).films.map((row) => (
+      root.map((row) => (
         <Table.TRow className={styles.tr} key={row.id}>
           <Table.TCell>{row.title}</Table.TCell>
           <Table.TCell>
@@ -83,8 +81,15 @@ export const Films = () => {
           </Table.TCell>
         </Table.TRow>
       )),
-    [],
+    [root],
   );
+
+  useEffect(() => {
+    (async () => {
+      const res = await axios.get(`http://localhost:4000/api/cinematography/films`);
+      setRoot(res.data);
+    })();
+  }, []);
 
   return (
     <>
@@ -113,7 +118,7 @@ export const Films = () => {
             Управление
           </Table.THeadCell>
         </Table.THead>
-        <Table.TBody>{root.films.length > 0 && moviesListMemo}</Table.TBody>
+        <Table.TBody>{root.length > 0 && moviesListMemo}</Table.TBody>
       </Table>
       <AddContentModal isAddContentModal={isAddContentModal} handleAddContent={handleAddContent} />
     </>
