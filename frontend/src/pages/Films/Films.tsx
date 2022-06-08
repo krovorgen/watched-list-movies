@@ -31,7 +31,7 @@ export const iconStatus = {
 };
 
 type DataType = {
-  id: number;
+  _id: number;
   title: string;
   rating: number;
   linkKinopoisk: string;
@@ -50,7 +50,7 @@ export const Films = () => {
   const moviesListMemo = useMemo(
     () =>
       root.map((row) => (
-        <Table.TRow className={styles.tr} key={row.id}>
+        <Table.TRow className={styles.tr} key={row._id}>
           <Table.TCell>{row.title}</Table.TCell>
           <Table.TCell>
             <Tooltip
