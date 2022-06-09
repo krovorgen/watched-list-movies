@@ -1,4 +1,4 @@
-import React, { FC, memo, SyntheticEvent, useState } from 'react';
+import React, { FC, memo, SyntheticEvent, useCallback, useState } from 'react';
 import axios from 'axios';
 import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
 import { Button } from '@alfalab/core-components/button';
@@ -28,14 +28,17 @@ type Props = {
 export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddContent }) => {
   const [ratingValue, setRatingValue] = useState<RatingValueType>(0);
   const [loadingBtn, setLoadingBtn] = useState(false);
-
   const [calendarValue, setCalendarValue] = useState(dayjs(new Date()).format('DD.MM.YYYY'));
-  const calendarHandleChange = (_: any, { value }: { value: string }) => {
-    setCalendarValue(value);
-  };
 
-  const CustomField = (props: FieldProps) => (
-    <Field {...props} leftAddons={props.selected && (props.selected as OptionsStatus).icon} />
+  const calendarHandleChange = useCallback((_: any, { value }: { value: string }) => {
+    setCalendarValue(value);
+  }, []);
+
+  const CustomField = useCallback(
+    (props: FieldProps) => (
+      <Field {...props} leftAddons={props.selected && (props.selected as OptionsStatus).icon} />
+    ),
+    [],
   );
   const options: OptionsStatus[] = [
     {
@@ -54,45 +57,50 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
       icon: iconStatus[StatusViewed.waiting],
     },
   ];
-  const [selected, setSelected] = React.useState([options[0]]);
-  const handleChange = ({ selectedMultiple }: any) => {
+  const [selected, setSelected] = useState([options[0]]);
+  const handleChange = useCallback(({ selectedMultiple }: any) => {
     setSelected(selectedMultiple);
-  };
+  }, []);
 
-  const sendForm = async (e: SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const sendForm = useCallback(
+    async (e: SyntheticEvent<HTMLFormElement>) => {
+      e.preventDefault();
 
-    const { title, status, statusText, linkKinopoisk, linkTikTok } = e.currentTarget
-      .elements as typeof e.currentTarget.elements & {
-      title: { value: string };
-      status: { value: string };
-      statusText: { value: string };
-      linkKinopoisk: { value: string };
-      linkTikTok: { value: string };
-    };
+      const { title, status, statusText, linkKinopoisk, linkTikTok } = e.currentTarget
+        .elements as typeof e.currentTarget.elements & {
+        title: { value: string };
+        status: { value: string };
+        statusText: { value: string };
+        linkKinopoisk: { value: string };
+        linkTikTok: { value: string };
+      };
 
-    if (linkTikTok.value !== '') validateUrl(linkTikTok.value);
-    if (linkKinopoisk.value !== '') validateUrl(linkKinopoisk.value);
+      if (linkTikTok.value !== '') validateUrl(linkTikTok.value);
+      if (linkKinopoisk.value !== '') validateUrl(linkKinopoisk.value);
 
-    try {
-      setLoadingBtn(true);
-      await axios.post(`http://localhost:4000/api/cinematography`, {
-        type: 'films',
-        title: title.value,
-        rating: ratingValue,
-        linkKinopoisk: linkKinopoisk.value,
-        linkTikTok: linkTikTok.value,
-        viewed: dayjs(calendarValue, 'DD.MM.YYYY').toDate(),
-        status: status.value,
-        statusText: statusText.value,
-      });
-      handleAddContent();
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setLoadingBtn(false);
-    }
-  };
+      const chooseDate = dayjs(calendarValue, 'DD.MM.YYYY').format('MM.DD.YY');
+
+      try {
+        setLoadingBtn(true);
+        await axios.post(`http://localhost:4000/api/cinematography`, {
+          type: 'films',
+          title: title.value,
+          rating: ratingValue,
+          linkKinopoisk: linkKinopoisk.value,
+          linkTikTok: linkTikTok.value,
+          viewed: new Date(chooseDate),
+          status: status.value,
+          statusText: statusText.value,
+        });
+        handleAddContent();
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setLoadingBtn(false);
+      }
+    },
+    [calendarValue, handleAddContent, ratingValue],
+  );
   return (
     <ModalResponsive open={isAddContentModal} onClose={handleAddContent} size="m">
       <ModalResponsive.Header hasCloser={true} />
