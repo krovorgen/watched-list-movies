@@ -49,7 +49,7 @@ type Props = {
 };
 
 export const Cinematography: FC<Props> = memo(({ currentType }) => {
-  const [root, setRoot] = useState<DataType[]>([]);
+  const [content, setContent] = useState<DataType[]>([]);
 
   const [isAddContentModal, setIsAddContentModal] = useState(false);
   const handleAddContent = useCallback(() => setIsAddContentModal((v) => !v), []);
@@ -59,7 +59,7 @@ export const Cinematography: FC<Props> = memo(({ currentType }) => {
     if (!result) return;
     try {
       await api.delete(id);
-      setRoot((v) => v.filter((item) => item._id !== id));
+      setContent((v) => v.filter((item) => item._id !== id));
     } catch ({ response }) {
       catchHandler(response);
     } finally {
@@ -68,7 +68,8 @@ export const Cinematography: FC<Props> = memo(({ currentType }) => {
 
   const moviesListMemo = useMemo(
     () =>
-      root.map((row) => (
+      content.length > 0 &&
+      content.map((row) => (
         <Table.TRow className={styles.tr} key={row._id}>
           <Table.TCell>{row.title}</Table.TCell>
           <Table.TCell>
@@ -105,13 +106,13 @@ export const Cinematography: FC<Props> = memo(({ currentType }) => {
           </Table.TCell>
         </Table.TRow>
       )),
-    [root, deleteCinematography],
+    [content, deleteCinematography],
   );
 
   useEffect(() => {
     (async () => {
       const res = await api.get(currentType);
-      setRoot(res.data);
+      setContent(res.data);
     })();
   }, [isAddContentModal, currentType]);
 
@@ -143,7 +144,7 @@ export const Cinematography: FC<Props> = memo(({ currentType }) => {
             Управление
           </Table.THeadCell>
         </Table.THead>
-        <Table.TBody>{root.length > 0 && moviesListMemo}</Table.TBody>
+        <Table.TBody>{content.length > 0 && moviesListMemo}</Table.TBody>
       </Table>
       <AddContentModal
         isAddContentModal={isAddContentModal}
