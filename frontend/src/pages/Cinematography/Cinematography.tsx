@@ -16,7 +16,7 @@ import kinopoisk from '../../assets/images/kinopoisk.webp';
 import tiktok from '../../assets/images/tiktok.svg';
 import { AddContentModal } from '../../components/AddContentModal';
 
-import styles from './Films.module.scss';
+import styles from './Cinematography.module.scss';
 
 export enum StatusViewed {
   complete = 'complete',
@@ -41,7 +41,7 @@ type DataType = {
   statusText: string;
 };
 
-export const Films = () => {
+export const Cinematography = () => {
   const [root, setRoot] = useState<DataType[]>([]);
 
   const [isAddContentModal, setIsAddContentModal] = useState(false);

@@ -9,8 +9,9 @@ import { Field } from '@alfalab/core-components/select/components';
 import dayjs from 'dayjs';
 
 import { Rating, RatingValueType } from '../Rating';
-import { iconStatus, StatusViewed } from '../../pages/Films';
+import { iconStatus, StatusViewed } from '../../pages/Cinematography';
 import { validateUrl } from '../../helpers/validateUrl';
+import { CinematographyType } from '../../types/global';
 
 import styles from './AddContentModal.module.scss';
 
@@ -58,16 +59,27 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
     },
   ];
   const [selectedStatus, setSelectedStatus] = useState([optionsStatus[0]]);
-  const handleChange = useCallback(({ selectedMultiple }: any) => {
+  const handleChangeStatus = useCallback(({ selectedMultiple }: any) => {
     setSelectedStatus(selectedMultiple);
+  }, []);
+
+  const optionsType = [
+    { key: CinematographyType.films, content: 'Фильм' },
+    { key: CinematographyType.serials, content: 'Сериал' },
+    { key: CinematographyType.cartoon, content: 'Мультфильм' },
+  ];
+  const [selectedType, setSelectedType] = useState([optionsType[0]]);
+  const handleChangeType = useCallback(({ selectedMultiple }: any) => {
+    setSelectedType(selectedMultiple);
   }, []);
 
   const sendForm = useCallback(
     async (e: SyntheticEvent<HTMLFormElement>) => {
       e.preventDefault();
 
-      const { title, status, statusText, linkKinopoisk, linkTikTok } = e.currentTarget
+      const { type, title, status, statusText, linkKinopoisk, linkTikTok } = e.currentTarget
         .elements as typeof e.currentTarget.elements & {
+        type: { value: string };
         title: { value: string };
         status: { value: string };
         statusText: { value: string };
@@ -83,7 +95,7 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
       try {
         setLoadingBtn(true);
         await axios.post(`http://localhost:4000/api/cinematography`, {
-          type: 'films',
+          type: type.value,
           title: title.value,
           rating: ratingValue,
           linkKinopoisk: linkKinopoisk.value,
@@ -106,6 +118,15 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
       <ModalResponsive.Header hasCloser={true} />
       <ModalResponsive.Content>
         <form onSubmit={sendForm} className={styles.form}>
+          <Select
+            options={optionsType}
+            placeholder="Выберите тип"
+            name="type"
+            onChange={handleChangeType}
+            selected={selectedType}
+            block
+          />
+
           <Input label="Название" name="title" required block />
 
           <Select
@@ -113,7 +134,7 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
             options={optionsStatus}
             name="status"
             Field={CustomField}
-            onChange={handleChange}
+            onChange={handleChangeStatus}
             selected={selectedStatus}
             block
           />
