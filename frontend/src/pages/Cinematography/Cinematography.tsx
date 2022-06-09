@@ -1,5 +1,4 @@
 import React, { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import ru from 'dayjs/locale/ru';
 import { Typography } from '@alfalab/core-components/typography';
@@ -17,6 +16,8 @@ import kinopoisk from '../../assets/images/kinopoisk.webp';
 import tiktok from '../../assets/images/tiktok.svg';
 import { CinematographyType } from '../../types/global';
 import { catchHandler } from '../../helpers/catchHandler';
+import { api } from '../../api/api';
+import { GoHome } from '../../components/GoHome';
 
 import styles from './Cinematography.module.scss';
 
@@ -57,7 +58,7 @@ export const Cinematography: FC<Props> = memo(({ currentType }) => {
     let result = window.confirm(`question`);
     if (!result) return;
     try {
-      await axios.delete(`http://localhost:4000/api/cinematography/${id}`);
+      await api.delete(id);
       setRoot((v) => v.filter((item) => item._id !== id));
     } catch ({ response }) {
       catchHandler(response);
@@ -109,13 +110,14 @@ export const Cinematography: FC<Props> = memo(({ currentType }) => {
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get(`http://localhost:4000/api/cinematography/${currentType}`);
+      const res = await api.get(currentType);
       setRoot(res.data);
     })();
   }, [isAddContentModal, currentType]);
 
   return (
     <>
+      <GoHome />
       <Typography.Title view="xlarge" tag="h1" className={styles.title}>
         Список просмотренных фильмов
       </Typography.Title>

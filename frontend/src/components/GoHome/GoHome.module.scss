@@ -1,0 +1,28 @@
+@import "./src/scss/helpers/variables";
+@import "./src/scss/helpers/mixins";
+
+.root {
+  position: fixed;
+  left: 8px;
+  top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 0 5px rgb(0, 0, 0, 50%);
+  font-weight: 700;
+  font-size: 24px;
+  color: #181818;
+  background-color: #fff;
+
+  &:hover {
+    color: #fff;
+    background-color: #181818;
+    transition: background-color 0.3s, color 0.3s;
+  }
+}
