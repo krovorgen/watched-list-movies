@@ -40,7 +40,7 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
     ),
     [],
   );
-  const options: OptionsStatus[] = [
+  const optionsStatus: OptionsStatus[] = [
     {
       key: StatusViewed.complete,
       content: 'Просмотрено',
@@ -57,9 +57,9 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
       icon: iconStatus[StatusViewed.waiting],
     },
   ];
-  const [selected, setSelected] = useState([options[0]]);
+  const [selectedStatus, setSelectedStatus] = useState([optionsStatus[0]]);
   const handleChange = useCallback(({ selectedMultiple }: any) => {
-    setSelected(selectedMultiple);
+    setSelectedStatus(selectedMultiple);
   }, []);
 
   const sendForm = useCallback(
@@ -110,11 +110,11 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
 
           <Select
             label="Статус просмотра"
-            options={options}
+            options={optionsStatus}
             name="status"
             Field={CustomField}
             onChange={handleChange}
-            selected={selected}
+            selected={selectedStatus}
             block
           />
 
