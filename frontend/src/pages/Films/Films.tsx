@@ -31,7 +31,7 @@ export const iconStatus = {
 };
 
 type DataType = {
-  _id: number;
+  _id: string;
   title: string;
   rating: number;
   linkKinopoisk: string;
@@ -46,6 +46,18 @@ export const Films = () => {
 
   const [isAddContentModal, setIsAddContentModal] = useState(false);
   const handleAddContent = useCallback(() => setIsAddContentModal((v) => !v), []);
+
+  const deleteCinematography = useCallback(async (id: string) => {
+    let result = window.confirm(`question`);
+    if (!result) return;
+    try {
+      await axios.delete(`http://localhost:4000/api/cinematography/${id}`);
+      setRoot((v) => v.filter((item) => item._id !== id));
+    } catch (e) {
+      console.log(e);
+    } finally {
+    }
+  }, []);
 
   const moviesListMemo = useMemo(
     () =>
@@ -77,11 +89,16 @@ export const Films = () => {
           <Table.TCell>{dayjs(row.viewed).locale(ru).format('DD MMMM YYYY')}</Table.TCell>
           <Table.TCell className={styles.nav}>
             <Button size="xxs" view="secondary" rightAddons={<EditMBlackIcon />} />
-            <Button size="xxs" view="primary" rightAddons={<DeleteSWhiteIcon />} />
+            <Button
+              size="xxs"
+              view="primary"
+              rightAddons={<DeleteSWhiteIcon />}
+              onClick={() => deleteCinematography(row._id)}
+            />
           </Table.TCell>
         </Table.TRow>
       )),
-    [root],
+    [root, deleteCinematography],
   );
 
   useEffect(() => {
@@ -89,7 +106,7 @@ export const Films = () => {
       const res = await axios.get(`http://localhost:4000/api/cinematography/films`);
       setRoot(res.data);
     })();
-  }, []);
+  }, [isAddContentModal]);
 
   return (
     <>

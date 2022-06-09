@@ -88,6 +88,7 @@ export const AddContentModal: FC<Props> = memo(({ isAddContentModal, handleAddCo
       });
       handleAddContent();
     } catch (e) {
+      console.log(e);
     } finally {
       setLoadingBtn(false);
     }

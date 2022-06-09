@@ -38,4 +38,8 @@ export class CinematographyService {
       createCinematographyDto,
     ).save();
   }
+
+  async deleteCinematography(id: string) {
+    return new this.cinematographyRepository({ _id: id }).delete();
+  }
 }
