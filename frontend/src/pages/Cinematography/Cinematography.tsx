@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import ru from 'dayjs/locale/ru';
@@ -12,9 +12,10 @@ import { CancelMColorIcon } from '@alfalab/icons-classic/CancelMColorIcon';
 import { EditMBlackIcon } from '@alfalab/icons-classic/EditMBlackIcon';
 import { OkMColorIcon } from '@alfalab/icons-classic/OkMColorIcon';
 
+import { AddContentModal } from '../../components/AddContentModal';
 import kinopoisk from '../../assets/images/kinopoisk.webp';
 import tiktok from '../../assets/images/tiktok.svg';
-import { AddContentModal } from '../../components/AddContentModal';
+import { CinematographyType } from '../../types/global';
 
 import styles from './Cinematography.module.scss';
 
@@ -41,7 +42,11 @@ type DataType = {
   statusText: string;
 };
 
-export const Cinematography = () => {
+type Props = {
+  currentType: CinematographyType;
+};
+
+export const Cinematography: FC<Props> = memo(({ currentType }) => {
   const [root, setRoot] = useState<DataType[]>([]);
 
   const [isAddContentModal, setIsAddContentModal] = useState(false);
@@ -103,10 +108,10 @@ export const Cinematography = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await axios.get(`http://localhost:4000/api/cinematography/films`);
+      const res = await axios.get(`http://localhost:4000/api/cinematography/${currentType}`);
       setRoot(res.data);
     })();
-  }, [isAddContentModal]);
+  }, [isAddContentModal, currentType]);
 
   return (
     <>
@@ -137,7 +142,11 @@ export const Cinematography = () => {
         </Table.THead>
         <Table.TBody>{root.length > 0 && moviesListMemo}</Table.TBody>
       </Table>
-      <AddContentModal isAddContentModal={isAddContentModal} handleAddContent={handleAddContent} />
+      <AddContentModal
+        isAddContentModal={isAddContentModal}
+        handleAddContent={handleAddContent}
+        currentType={currentType}
+      />
     </>
   );
-};
+});

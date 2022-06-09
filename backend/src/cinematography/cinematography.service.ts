@@ -29,7 +29,7 @@ export class CinematographyService {
 
   async getCartoons(): Promise<Cinematography[]> {
     return await this.cinematographyRepository
-      .find({ type: CinematographyType.cartoon })
+      .find({ type: CinematographyType.cartoons })
       .exec();
   }
 
