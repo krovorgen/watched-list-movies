@@ -11,15 +11,29 @@ export const App = () => (
     <Route path={AppRoutes.Root} element={<Root />} />
     <Route
       path={AppRoutes.Films}
-      element={<Cinematography currentType={CinematographyType.films} />}
+      element={
+        <Cinematography key={Math.random()} currentType={CinematographyType.films} title="Фильмы" />
+      }
     />
     <Route
       path={AppRoutes.Serials}
-      element={<Cinematography currentType={CinematographyType.serials} />}
+      element={
+        <Cinematography
+          key={Math.random()}
+          currentType={CinematographyType.serials}
+          title="Сериалы"
+        />
+      }
     />
     <Route
       path={AppRoutes.Cartoons}
-      element={<Cinematography currentType={CinematographyType.cartoons} />}
+      element={
+        <Cinematography
+          key={Math.random()}
+          currentType={CinematographyType.cartoons}
+          title="Мультфильмы"
+        />
+      }
     />
     <Route path="*" element={<NotFound />} />
   </Routes>

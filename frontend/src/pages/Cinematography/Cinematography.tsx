@@ -46,9 +46,10 @@ type DataType = {
 
 type Props = {
   currentType: CinematographyType;
+  title: string;
 };
 
-export const Cinematography: FC<Props> = memo(({ currentType }) => {
+export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
   const [content, setContent] = useState<DataType[]>([]);
 
   const [isAddContentModal, setIsAddContentModal] = useState(false);
@@ -120,7 +121,7 @@ export const Cinematography: FC<Props> = memo(({ currentType }) => {
     <>
       <GoHome />
       <Typography.Title view="xlarge" tag="h1" className={styles.title}>
-        Список просмотренных фильмов
+        {title}
       </Typography.Title>
       <Button className={styles.add} block view="link" onClick={handleAddContent}>
         Добавить
