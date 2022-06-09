@@ -13,6 +13,7 @@ import { Rating, RatingValueType } from '../Rating';
 import { iconStatus, StatusViewed } from '../../pages/Cinematography';
 import { validateUrl } from '../../helpers/validateUrl';
 import { CinematographyType } from '../../types/global';
+import { catchHandler } from '../../helpers/catchHandler';
 
 import styles from './AddContentModal.module.scss';
 
@@ -109,8 +110,8 @@ export const AddContentModal: FC<Props> = memo(
             statusText: statusText.value,
           });
           handleAddContent();
-        } catch (e) {
-          console.log(e);
+        } catch ({ response }) {
+          catchHandler(response);
         } finally {
           setLoadingBtn(false);
         }

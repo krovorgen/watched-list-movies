@@ -16,6 +16,7 @@ import { AddContentModal } from '../../components/AddContentModal';
 import kinopoisk from '../../assets/images/kinopoisk.webp';
 import tiktok from '../../assets/images/tiktok.svg';
 import { CinematographyType } from '../../types/global';
+import { catchHandler } from '../../helpers/catchHandler';
 
 import styles from './Cinematography.module.scss';
 
@@ -58,8 +59,8 @@ export const Cinematography: FC<Props> = memo(({ currentType }) => {
     try {
       await axios.delete(`http://localhost:4000/api/cinematography/${id}`);
       setRoot((v) => v.filter((item) => item._id !== id));
-    } catch (e) {
-      console.log(e);
+    } catch ({ response }) {
+      catchHandler(response);
     } finally {
     }
   }, []);
