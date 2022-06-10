@@ -31,8 +31,8 @@ export const Root = () => {
     await (e.currentTarget.children.item(0) as HTMLVideoElement).play();
   }, []);
 
-  const mouseOutVideoHandler = useCallback((e: MouseEvent<HTMLLIElement>) => {
-    (e.currentTarget.children.item(0) as HTMLVideoElement).pause();
+  const mouseOutVideoHandler = useCallback(async (e: MouseEvent<HTMLLIElement>) => {
+    await (e.currentTarget.children.item(0) as HTMLVideoElement).pause();
   }, []);
 
   const linksDataMemo = useMemo(

@@ -1,6 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CinematographyService } from './cinematography.service';
 import { CreateCinematographyDto } from './dto/create-cinematography.dto';
+import { UpdateCinematographyDto } from './dto/update-cinematography.dto';
 
 @Controller('api/cinematography')
 export class CinematographyController {
@@ -33,5 +42,13 @@ export class CinematographyController {
   @Delete(':id')
   deleteCinematography(@Param('id') id: string) {
     return this.cinematographyService.deleteCinematography(id);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: number,
+    @Body() updateCinematographyDto: UpdateCinematographyDto,
+  ) {
+    return this.cinematographyService.update(id, updateCinematographyDto);
   }
 }

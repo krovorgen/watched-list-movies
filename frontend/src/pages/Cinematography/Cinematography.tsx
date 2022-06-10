@@ -1,4 +1,5 @@
 import React, { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import ru from 'dayjs/locale/ru';
 import { Typography } from '@alfalab/core-components/typography';
@@ -18,6 +19,7 @@ import { CinematographyType } from '../../types/global';
 import { catchHandler } from '../../helpers/catchHandler';
 import { api } from '../../api/api';
 import { GoHome } from '../../components/GoHome';
+import { EditContentModal } from '../../components/EditContentModal';
 
 import styles from './Cinematography.module.scss';
 
@@ -55,6 +57,9 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
   const [isAddContentModal, setIsAddContentModal] = useState(false);
   const handleAddContent = useCallback(() => setIsAddContentModal((v) => !v), []);
 
+  const [isEditContentModal, setIsEditContentModal] = useState(false);
+  const handleEditContent = useCallback(() => setIsEditContentModal((v) => !v), []);
+
   const deleteCinematography = useCallback(async (id: string) => {
     let result = window.confirm(`question`);
     if (!result) return;
@@ -64,6 +69,7 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
     } catch ({ response }) {
       catchHandler(response);
     } finally {
+      toast('Удалено');
     }
   }, []);
 
@@ -97,7 +103,12 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
           </Table.TCell>
           <Table.TCell>{dayjs(row.viewed).locale(ru).format('DD MMMM YYYY')}</Table.TCell>
           <Table.TCell className={styles.nav}>
-            <Button size="xxs" view="secondary" rightAddons={<EditMBlackIcon />} />
+            <Button
+              size="xxs"
+              view="secondary"
+              onClick={handleEditContent}
+              rightAddons={<EditMBlackIcon />}
+            />
             <Button
               size="xxs"
               view="primary"
@@ -107,7 +118,7 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
           </Table.TCell>
         </Table.TRow>
       )),
-    [content, deleteCinematography],
+    [content, handleEditContent, deleteCinematography],
   );
 
   useEffect(() => {
@@ -150,6 +161,11 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
       <AddContentModal
         isAddContentModal={isAddContentModal}
         handleAddContent={handleAddContent}
+        currentType={currentType}
+      />
+      <EditContentModal
+        isEditContentModal={isEditContentModal}
+        handleEditContent={handleEditContent}
         currentType={currentType}
       />
     </>

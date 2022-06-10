@@ -13,6 +13,18 @@ class Api {
   delete(id: string) {
     return this.instance.delete(`/${id}`);
   }
+  update(id: string, updateCinematographyDto: UpdateCinematographyDtoType) {
+    return this.instance.patch(`/${id}`, updateCinematographyDto);
+  }
 }
+
+type UpdateCinematographyDtoType = {
+  title: string;
+  rating: number;
+  linkKinopoisk: string;
+  linkTikTok: string;
+  status: string;
+  statusText: string;
+};
 
 export const api = new Api();

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import {
   Cinematography,
@@ -7,6 +7,7 @@ import {
 } from '../schemas/cinematography.schema';
 import { Model } from 'mongoose';
 import { CreateCinematographyDto } from './dto/create-cinematography.dto';
+import { UpdateCinematographyDto } from './dto/update-cinematography.dto';
 
 @Injectable()
 export class CinematographyService {
@@ -41,5 +42,18 @@ export class CinematographyService {
 
   async deleteCinematography(id: string) {
     return new this.cinematographyRepository({ _id: id }).delete();
+  }
+
+  async update(id: number, updateCinematographyDto: UpdateCinematographyDto) {
+    const existingCinematography =
+      await this.cinematographyRepository.findOneAndUpdate(
+        { id },
+        { $set: updateCinematographyDto },
+        { new: true },
+      );
+    if (!existingCinematography) {
+      throw new NotFoundException(`Cinematography with id ${id} not found`);
+    }
+    return existingCinematography;
   }
 }
