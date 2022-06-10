@@ -35,8 +35,9 @@ export const iconStatus = {
   waiting: <CancelMColorIcon />,
 };
 
-type DataType = {
+export type DataType = {
   _id: string;
+  type: CinematographyType;
   title: string;
   rating: number;
   linkKinopoisk: string;
@@ -53,12 +54,23 @@ type Props = {
 
 export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
   const [content, setContent] = useState<DataType[]>([]);
+  const [currentRow, setCurrentRow] = useState<DataType | null>(null);
 
   const [isAddContentModal, setIsAddContentModal] = useState(false);
   const handleAddContent = useCallback(() => setIsAddContentModal((v) => !v), []);
 
   const [isEditContentModal, setIsEditContentModal] = useState(false);
-  const handleEditContent = useCallback(() => setIsEditContentModal((v) => !v), []);
+  const handleEditContent = useCallback(() => {
+    setIsEditContentModal((v) => !v);
+  }, []);
+
+  const editCinematography = useCallback(
+    (row: DataType) => {
+      setCurrentRow(row);
+      handleEditContent();
+    },
+    [handleEditContent],
+  );
 
   const deleteCinematography = useCallback(async (id: string) => {
     let result = window.confirm(`question`);
@@ -72,6 +84,10 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
       toast('Удалено');
     }
   }, []);
+
+  useEffect(() => {
+    if (currentRow && !isEditContentModal) setCurrentRow(null);
+  }, [currentRow, isEditContentModal]);
 
   const moviesListMemo = useMemo(
     () =>
@@ -106,7 +122,7 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
             <Button
               size="xxs"
               view="secondary"
-              onClick={handleEditContent}
+              onClick={() => editCinematography(row)}
               rightAddons={<EditMBlackIcon />}
             />
             <Button
@@ -118,7 +134,7 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
           </Table.TCell>
         </Table.TRow>
       )),
-    [content, handleEditContent, deleteCinematography],
+    [content, editCinematography, deleteCinematography],
   );
 
   useEffect(() => {
@@ -126,7 +142,7 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
       const res = await api.get(currentType);
       setContent(res.data);
     })();
-  }, [isAddContentModal, currentType]);
+  }, [isAddContentModal, isEditContentModal, currentType]);
 
   return (
     <>
@@ -163,11 +179,13 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
         handleAddContent={handleAddContent}
         currentType={currentType}
       />
-      <EditContentModal
-        isEditContentModal={isEditContentModal}
-        handleEditContent={handleEditContent}
-        currentType={currentType}
-      />
+      {currentRow && (
+        <EditContentModal
+          isEditContentModal={isEditContentModal}
+          handleEditContent={handleEditContent}
+          content={currentRow}
+        />
+      )}
     </>
   );
 });

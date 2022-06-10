@@ -6,13 +6,12 @@ import { FieldProps, Select } from '@alfalab/core-components/select';
 import { Field } from '@alfalab/core-components/select/components';
 
 import { Rating, RatingValueType } from '../Rating';
-import { iconStatus, StatusViewed } from '../../pages/Cinematography';
+import { DataType, iconStatus, StatusViewed } from '../../pages/Cinematography';
 import { validateUrl } from '../../helpers/validateUrl';
-import { CinematographyType } from '../../types/global';
 import { catchHandler } from '../../helpers/catchHandler';
+import { api } from '../../api/api';
 
 import styles from './EditContentModal.module.scss';
-import { api } from '../../api/api';
 
 type OptionsStatus = {
   key: string;
@@ -23,12 +22,12 @@ type OptionsStatus = {
 type Props = {
   isEditContentModal: boolean;
   handleEditContent: () => void;
-  currentType: CinematographyType;
+  content: DataType;
 };
 
 export const EditContentModal: FC<Props> = memo(
-  ({ isEditContentModal, handleEditContent, currentType }) => {
-    const [ratingValue, setRatingValue] = useState<RatingValueType>(0);
+  ({ isEditContentModal, handleEditContent, content }) => {
+    const [ratingValue, setRatingValue] = useState<RatingValueType>(content.rating);
     const [loadingBtn, setLoadingBtn] = useState(false);
 
     const CustomField = useCallback(
@@ -54,7 +53,9 @@ export const EditContentModal: FC<Props> = memo(
         icon: iconStatus[StatusViewed.waiting],
       },
     ];
-    const [selectedStatus, setSelectedStatus] = useState([optionsStatus[0]]);
+
+    const indexDefaultType = optionsStatus.findIndex((item) => item.key === content.status);
+    const [selectedStatus, setSelectedStatus] = useState([optionsStatus[indexDefaultType]]);
     const handleChangeStatus = useCallback(({ selectedMultiple }: any) => {
       setSelectedStatus(selectedMultiple);
     }, []);
@@ -82,7 +83,7 @@ export const EditContentModal: FC<Props> = memo(
 
         try {
           setLoadingBtn(true);
-          await api.update('1', {
+          await api.update(content._id, {
             title,
             rating: ratingValue,
             linkKinopoisk,
@@ -97,14 +98,14 @@ export const EditContentModal: FC<Props> = memo(
           setLoadingBtn(false);
         }
       },
-      [handleEditContent, ratingValue],
+      [content._id, handleEditContent, ratingValue],
     );
     return (
       <ModalResponsive open={isEditContentModal} onClose={handleEditContent} size="m">
         <ModalResponsive.Header hasCloser={true} />
         <ModalResponsive.Content>
           <form onSubmit={sendForm} className={styles.form}>
-            <Input label="Название" name="title" required block />
+            <Input label="Название" name="title" defaultValue={content.title} required block />
 
             <Select
               label="Статус просмотра"
@@ -116,13 +117,28 @@ export const EditContentModal: FC<Props> = memo(
               block
             />
 
-            <Input label="Комментарий к статусу" name="statusText" block />
+            <Input
+              label="Комментарий к статусу"
+              name="statusText"
+              defaultValue={content.statusText}
+              block
+            />
 
             <Rating value={ratingValue} onClick={setRatingValue} />
 
-            <Input label="Ссылка на kinopoisk" name="linkKinopoisk" block />
+            <Input
+              label="Ссылка на kinopoisk"
+              name="linkKinopoisk"
+              defaultValue={content.linkKinopoisk}
+              block
+            />
 
-            <Input label="Ссылка на tiktok" name="linkTikTok" block />
+            <Input
+              label="Ссылка на tiktok"
+              name="linkTikTok"
+              defaultValue={content.linkTikTok}
+              block
+            />
 
             <Button view="primary" size="s" type="submit" loading={loadingBtn} block>
               Сохранить
