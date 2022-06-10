@@ -5,7 +5,7 @@ import {
   CinematographyDocument,
   CinematographyType,
 } from '../schemas/cinematography.schema';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { CreateCinematographyDto } from './dto/create-cinematography.dto';
 import { UpdateCinematographyDto } from './dto/update-cinematography.dto';
 
@@ -44,10 +44,10 @@ export class CinematographyService {
     return new this.cinematographyRepository({ _id: id }).delete();
   }
 
-  async update(id: number, updateCinematographyDto: UpdateCinematographyDto) {
+  async update(id: ObjectId, updateCinematographyDto: UpdateCinematographyDto) {
     const existingCinematography =
       await this.cinematographyRepository.findOneAndUpdate(
-        { id },
+        { _id: id },
         { $set: updateCinematographyDto },
         { new: true },
       );

@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { ObjectId } from 'mongoose';
 import { CinematographyService } from './cinematography.service';
 import { CreateCinematographyDto } from './dto/create-cinematography.dto';
 import { UpdateCinematographyDto } from './dto/update-cinematography.dto';
@@ -46,7 +47,7 @@ export class CinematographyController {
 
   @Patch(':id')
   update(
-    @Param('id') id: number,
+    @Param('id') id: ObjectId,
     @Body() updateCinematographyDto: UpdateCinematographyDto,
   ) {
     return this.cinematographyService.update(id, updateCinematographyDto);
