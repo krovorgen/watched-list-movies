@@ -1,5 +1,4 @@
 import React, { FC, memo, SyntheticEvent, useCallback, useState } from 'react';
-import axios from 'axios';
 import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
 import { Button } from '@alfalab/core-components/button';
 import { Input } from '@alfalab/core-components/input';
@@ -15,6 +14,7 @@ import { iconStatus, StatusViewed } from '../../pages/Cinematography';
 import { validateUrl } from '../../helpers/validateUrl';
 import { CinematographyType } from '../../types/global';
 import { catchHandler } from '../../helpers/catchHandler';
+import { api } from '../../api/api';
 
 import styles from './AddContentModal.module.scss';
 
@@ -106,8 +106,8 @@ export const AddContentModal: FC<Props> = memo(
 
         try {
           setLoadingBtn(true);
-          await axios.post(`http://localhost:4000/api/cinematography`, {
-            type,
+          await api.create({
+            type: type as CinematographyType,
             title,
             rating: ratingValue,
             linkKinopoisk,
