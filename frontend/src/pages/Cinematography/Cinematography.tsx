@@ -104,7 +104,7 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
               {iconStatus[row.status]}
             </Tooltip>
           </Table.TCell>
-          <Table.TCell>{row.rating}</Table.TCell>
+          <Table.TCell>{row.status === 'complete' ? row.rating : `—`}</Table.TCell>
           <Table.TCell>
             {row.linkKinopoisk ? (
               <a className={styles.link} href={row.linkKinopoisk} target="_blank" rel="noreferrer">
@@ -117,7 +117,9 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
               </a>
             ) : null}
           </Table.TCell>
-          <Table.TCell>{dayjs(row.viewed).locale(ru).format('DD MMMM YYYY')}</Table.TCell>
+          <Table.TCell>
+            {row.status === 'complete' ? dayjs(row.viewed).locale(ru).format('DD MMMM YYYY') : `—`}
+          </Table.TCell>
           <Table.TCell className={styles.nav}>
             <Button
               size="xxs"
