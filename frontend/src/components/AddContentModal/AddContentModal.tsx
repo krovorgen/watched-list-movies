@@ -99,8 +99,9 @@ export const AddContentModal: FC<Props> = memo(
           linkTikTok: { value: string };
         };
 
-        if (linkTikTok !== '') return validateUrl(linkTikTok);
-        if (linkKinopoisk !== '') return validateUrl(linkKinopoisk);
+        if (linkTikTok !== '' && !validateUrl(linkTikTok)) return;
+        if (linkKinopoisk !== '' && !validateUrl(linkKinopoisk)) return;
+
         dayjs.extend(customParseFormat);
         const chooseDate = dayjs(calendarValue, 'DD.MM.YYYY').format('MM.DD.YY');
 
