@@ -20,6 +20,7 @@ import { catchHandler } from '../../helpers/catchHandler';
 import { api } from '../../api/api';
 import { GoHome } from '../../components/GoHome';
 import { EditContentModal } from '../../components/EditContentModal';
+import { GlobalLoader } from '../../components/GlobalLoader';
 
 import styles from './Cinematography.module.scss';
 
@@ -53,6 +54,7 @@ type Props = {
 };
 
 export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
+  const [isLoadingContent, setIsLoadingContent] = useState(false);
   const [content, setContent] = useState<DataType[]>([]);
   const [currentRow, setCurrentRow] = useState<DataType | null>(null);
 
@@ -141,13 +143,22 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
 
   useEffect(() => {
     (async () => {
-      const res = await api.get(currentType);
-      setContent(res.data);
+      setIsLoadingContent(true);
+      try {
+        if (isAddContentModal || isEditContentModal) return;
+        const res = await api.get(currentType);
+        setContent(res.data);
+      } catch ({ response }) {
+        catchHandler(response);
+      } finally {
+        setIsLoadingContent(false);
+      }
     })();
   }, [isAddContentModal, isEditContentModal, currentType]);
 
   return (
     <>
+      {isLoadingContent && <GlobalLoader />}
       <GoHome />
       <Typography.Title view="xlarge" tag="h1" className={styles.title}>
         {title}
