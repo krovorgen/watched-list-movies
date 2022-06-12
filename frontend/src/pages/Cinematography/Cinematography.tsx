@@ -98,13 +98,17 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
         <Table.TRow className={styles.tr} key={row._id}>
           <Table.TCell>{row.title}</Table.TCell>
           <Table.TCell>
-            <Tooltip
-              content={row.statusText}
-              position="top"
-              view="hint"
-              targetClassName={styles.tooltip}>
-              {iconStatus[row.status]}
-            </Tooltip>
+            {row.statusText ? (
+              <Tooltip
+                content={row.statusText}
+                position="top"
+                view="hint"
+                targetClassName={styles.tooltip}>
+                {iconStatus[row.status]}
+              </Tooltip>
+            ) : (
+              iconStatus[row.status]
+            )}
           </Table.TCell>
           <Table.TCell>{row.status === 'complete' ? row.rating : `—`}</Table.TCell>
           <Table.TCell>
