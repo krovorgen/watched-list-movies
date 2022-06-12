@@ -26,7 +26,6 @@ type CreateCinematographyDtoType = {
   rating: number;
   linkKinopoisk: string;
   linkTikTok: string;
-  viewed: Date;
   status: string;
   statusText: string;
 };

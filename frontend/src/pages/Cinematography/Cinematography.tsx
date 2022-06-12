@@ -1,7 +1,5 @@
 import React, { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import dayjs from 'dayjs';
-import ru from 'dayjs/locale/ru';
 import { Typography } from '@alfalab/core-components/typography';
 import { Tooltip } from '@alfalab/core-components/tooltip';
 import { Button } from '@alfalab/core-components/button';
@@ -43,7 +41,6 @@ export type DataType = {
   rating: number;
   linkKinopoisk: string;
   linkTikTok: string;
-  viewed: string;
   status: StatusViewed;
   statusText: string;
 };
@@ -123,9 +120,6 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
               </a>
             ) : null}
           </Table.TCell>
-          <Table.TCell>
-            {row.status === 'complete' ? dayjs(row.viewed).locale(ru).format('DD MMMM YYYY') : `—`}
-          </Table.TCell>
           <Table.TCell className={styles.nav}>
             <Button
               size="xxs"
@@ -181,9 +175,6 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
           </Table.THeadCell>
           <Table.THeadCell width={100} textAlign="center">
             Ссылка
-          </Table.THeadCell>
-          <Table.THeadCell width={150} textAlign="center">
-            Просмотрен
           </Table.THeadCell>
           <Table.THeadCell width={150} textAlign="center">
             Управление

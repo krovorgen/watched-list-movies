@@ -2,11 +2,8 @@ import React, { FC, memo, SyntheticEvent, useCallback, useState } from 'react';
 import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
 import { Button } from '@alfalab/core-components/button';
 import { Input } from '@alfalab/core-components/input';
-import { CalendarInput } from '@alfalab/core-components/calendar-input';
 import { FieldProps, Select } from '@alfalab/core-components/select';
 import { Field } from '@alfalab/core-components/select/components';
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { toast } from 'react-toastify';
 
 import { Rating, RatingValueType } from '../Rating';
@@ -34,11 +31,6 @@ export const AddContentModal: FC<Props> = memo(
   ({ isAddContentModal, handleAddContent, currentType }) => {
     const [ratingValue, setRatingValue] = useState<RatingValueType>(0);
     const [loadingBtn, setLoadingBtn] = useState(false);
-    const [calendarValue, setCalendarValue] = useState(dayjs(new Date()).format('DD.MM.YYYY'));
-
-    const calendarHandleChange = useCallback((_: any, { value }: { value: string }) => {
-      setCalendarValue(value);
-    }, []);
 
     const CustomField = useCallback(
       (props: FieldProps) => (
@@ -102,9 +94,6 @@ export const AddContentModal: FC<Props> = memo(
         if (linkTikTok !== '' && !validateUrl(linkTikTok)) return;
         if (linkKinopoisk !== '' && !validateUrl(linkKinopoisk)) return;
 
-        dayjs.extend(customParseFormat);
-        const chooseDate = dayjs(calendarValue, 'DD.MM.YYYY').format('MM.DD.YY');
-
         try {
           setLoadingBtn(true);
           await api.create({
@@ -113,7 +102,6 @@ export const AddContentModal: FC<Props> = memo(
             rating: ratingValue,
             linkKinopoisk,
             linkTikTok,
-            viewed: new Date(chooseDate),
             status,
             statusText,
           });
@@ -125,7 +113,7 @@ export const AddContentModal: FC<Props> = memo(
           setLoadingBtn(false);
         }
       },
-      [calendarValue, handleAddContent, ratingValue],
+      [handleAddContent, ratingValue],
     );
     return (
       <ModalResponsive open={isAddContentModal} onClose={handleAddContent} size="m">
@@ -160,8 +148,6 @@ export const AddContentModal: FC<Props> = memo(
             <Input label="Ссылка на kinopoisk" name="linkKinopoisk" block />
 
             <Input label="Ссылка на tiktok" name="linkTikTok" block />
-
-            <CalendarInput value={calendarValue} onChange={calendarHandleChange} block />
 
             <Button view="primary" size="s" type="submit" loading={loadingBtn} block>
               Отправить
