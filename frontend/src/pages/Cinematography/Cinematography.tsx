@@ -4,11 +4,11 @@ import { Typography } from '@alfalab/core-components/typography/modern';
 import { Tooltip } from '@alfalab/core-components/tooltip/modern';
 import { Button } from '@alfalab/core-components/button/modern';
 import { Table } from '@alfalab/core-components/table/modern';
-import { AttentionMColorIcon } from '@alfalab/icons-classic/AttentionMColorIcon';
-import { DeleteSWhiteIcon } from '@alfalab/icons-classic/DeleteSWhiteIcon';
-import { CancelMColorIcon } from '@alfalab/icons-classic/CancelMColorIcon';
-import { EditMBlackIcon } from '@alfalab/icons-classic/EditMBlackIcon';
-import { OkMColorIcon } from '@alfalab/icons-classic/OkMColorIcon';
+import AttentionMColorIcon from '@alfalab/icons-classic/AttentionMColorIcon';
+import DeleteSWhiteIcon from '@alfalab/icons-classic/DeleteSWhiteIcon';
+import CancelMColorIcon from '@alfalab/icons-classic/CancelMColorIcon';
+import EditMBlackIcon from '@alfalab/icons-classic/EditMBlackIcon';
+import OkMColorIcon from '@alfalab/icons-classic/OkMColorIcon';
 
 import { AddContentModal } from '../../components/AddContentModal';
 import kinopoisk from '../../assets/images/kinopoisk.webp';
@@ -19,6 +19,7 @@ import { GoHome } from '../../components/GoHome';
 import { EditContentModal } from '../../components/EditContentModal';
 import { GlobalLoader } from '../../components/GlobalLoader';
 import { SearchForm } from '../../components/SearchForm';
+import { isCorrectGuardToken } from '../../helpers/guardToken';
 
 import styles from './Cinematography.module.scss';
 
@@ -43,6 +44,8 @@ export enum SortTableType {
   inProgress = 1,
   waiting = 2,
 }
+
+const isCorrectToken = isCorrectGuardToken();
 
 export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
   const [searchValue, setSearchValue] = useState('');
@@ -139,9 +142,11 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
       <Typography.Title view="xlarge" tag="h1" className={styles.title}>
         {title}
       </Typography.Title>
-      <Button className={styles.add} block view="link" onClick={handleAddContent}>
-        Добавить
-      </Button>
+      {isCorrectToken && (
+        <Button className={styles.add} block view="link" onClick={handleAddContent}>
+          Добавить
+        </Button>
+      )}
       <SearchForm setSearchValue={setSearchValue} />
       <Table>
         <Table.THead>
@@ -163,7 +168,7 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
           <Table.THeadCell width={100} textAlign="center">
             Ссылка
           </Table.THeadCell>
-          <Table.THeadCell width={150} textAlign="center">
+          <Table.THeadCell hidden={!isCorrectToken} width={150} textAlign="center">
             Управление
           </Table.THeadCell>
         </Table.THead>
