@@ -45,7 +45,7 @@ export enum SortTableType {
   waiting = 2,
 }
 
-const isCorrectToken = isCorrectGuardToken();
+const IS_CORRECT_TOKEN = isCorrectGuardToken();
 
 export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
   const [searchValue, setSearchValue] = useState('');
@@ -142,7 +142,7 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
       <Typography.Title view="xlarge" tag="h1" className={styles.title}>
         {title}
       </Typography.Title>
-      {isCorrectToken && (
+      {IS_CORRECT_TOKEN && (
         <Button className={styles.add} block view="link" onClick={handleAddContent}>
           Добавить
         </Button>
@@ -168,7 +168,7 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
           <Table.THeadCell width={100} textAlign="center">
             Ссылка
           </Table.THeadCell>
-          <Table.THeadCell hidden={!isCorrectToken} width={150} textAlign="center">
+          <Table.THeadCell hidden={!IS_CORRECT_TOKEN} width={150} textAlign="center">
             Управление
           </Table.THeadCell>
         </Table.THead>
