@@ -21,13 +21,7 @@ export const SearchForm: FC<Props> = memo(({ setSearchValue }) => {
 
   return (
     <div className={styles.root}>
-      <Input
-        className={styles.input}
-        placeholder="Найти"
-        size="s"
-        onChange={debouncedResults}
-        required
-      />
+      <Input placeholder="Найти" size="s" block onChange={debouncedResults} required />
     </div>
   );
 });
