@@ -6,18 +6,13 @@ import { FieldProps, Select } from '@alfalab/core-components/select';
 import { Field } from '@alfalab/core-components/select/components';
 
 import { Rating, RatingValueType } from '../Rating';
-import { DataType, iconStatus, StatusViewed } from '../../pages/Cinematography';
+import { iconStatus } from '../../pages/Cinematography';
 import { validateUrl } from '../../helpers/validateUrl';
 import { catchHandler } from '../../helpers/catchHandler';
-import { api } from '../../api/api';
+import { api, DataType, StatusViewed } from '../../api/api';
 
 import styles from './EditContentModal.module.scss';
-
-type OptionsStatus = {
-  key: string;
-  content: string;
-  icon: JSX.Element;
-};
+import { OptionsStatus } from '../../types/global';
 
 type Props = {
   isEditContentModal: boolean;
@@ -72,7 +67,7 @@ export const EditContentModal: FC<Props> = memo(
           linkTikTok: { value: linkTikTok },
         } = e.currentTarget.elements as typeof e.currentTarget.elements & {
           title: { value: string };
-          status: { value: string };
+          status: { value: StatusViewed };
           statusText: { value: string };
           linkKinopoisk: { value: string };
           linkTikTok: { value: string };

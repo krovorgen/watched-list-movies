@@ -7,19 +7,13 @@ import { Field } from '@alfalab/core-components/select/components';
 import { toast } from 'react-toastify';
 
 import { Rating, RatingValueType } from '../Rating';
-import { iconStatus, StatusViewed } from '../../pages/Cinematography';
+import { iconStatus } from '../../pages/Cinematography';
 import { validateUrl } from '../../helpers/validateUrl';
-import { CinematographyType } from '../../types/global';
 import { catchHandler } from '../../helpers/catchHandler';
-import { api } from '../../api/api';
+import { api, CinematographyType, StatusViewed } from '../../api/api';
 
 import styles from './AddContentModal.module.scss';
-
-type OptionsStatus = {
-  key: string;
-  content: string;
-  icon: JSX.Element;
-};
+import { OptionsStatus } from '../../types/global';
 
 type Props = {
   isAddContentModal: boolean;
@@ -85,7 +79,7 @@ export const AddContentModal: FC<Props> = memo(
         } = e.currentTarget.elements as typeof e.currentTarget.elements & {
           type: { value: string };
           title: { value: string };
-          status: { value: string };
+          status: { value: StatusViewed };
           statusText: { value: string };
           linkKinopoisk: { value: string };
           linkTikTok: { value: string };

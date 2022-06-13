@@ -4,7 +4,7 @@ import { AppRoutes } from './helpers/routes';
 import { Root } from './pages/Root';
 import { NotFound } from './pages/NotFound';
 import { Cinematography } from './pages/Cinematography';
-import { CinematographyType } from './types/global';
+import { CinematographyType } from './api/api';
 
 export const App = () => (
   <Routes>

@@ -13,36 +13,18 @@ import { OkMColorIcon } from '@alfalab/icons-classic/OkMColorIcon';
 import { AddContentModal } from '../../components/AddContentModal';
 import kinopoisk from '../../assets/images/kinopoisk.webp';
 import tiktok from '../../assets/images/tiktok.svg';
-import { CinematographyType } from '../../types/global';
 import { catchHandler } from '../../helpers/catchHandler';
-import { api } from '../../api/api';
+import { api, CinematographyType, DataType } from '../../api/api';
 import { GoHome } from '../../components/GoHome';
 import { EditContentModal } from '../../components/EditContentModal';
 import { GlobalLoader } from '../../components/GlobalLoader';
 
 import styles from './Cinematography.module.scss';
 
-export enum StatusViewed {
-  complete = 'complete',
-  inProgress = 'inProgress',
-  waiting = 'waiting',
-}
-
 export const iconStatus = {
   complete: <OkMColorIcon />,
   inProgress: <AttentionMColorIcon />,
   waiting: <CancelMColorIcon />,
-};
-
-export type DataType = {
-  _id: string;
-  type: CinematographyType;
-  title: string;
-  rating: number;
-  linkKinopoisk: string;
-  linkTikTok: string;
-  status: StatusViewed;
-  statusText: string;
 };
 
 type Props = {
