@@ -1,9 +1,9 @@
 import React, { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Typography } from '@alfalab/core-components/typography';
-import { Tooltip } from '@alfalab/core-components/tooltip';
-import { Button } from '@alfalab/core-components/button';
-import { Table } from '@alfalab/core-components/table';
+import { Typography } from '@alfalab/core-components/typography/modern';
+import { Tooltip } from '@alfalab/core-components/tooltip/modern';
+import { Button } from '@alfalab/core-components/button/modern';
+import { Table } from '@alfalab/core-components/table/modern';
 import { AttentionMColorIcon } from '@alfalab/icons-classic/AttentionMColorIcon';
 import { DeleteSWhiteIcon } from '@alfalab/icons-classic/DeleteSWhiteIcon';
 import { CancelMColorIcon } from '@alfalab/icons-classic/CancelMColorIcon';

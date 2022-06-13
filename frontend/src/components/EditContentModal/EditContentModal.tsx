@@ -1,9 +1,9 @@
 import React, { FC, memo, SyntheticEvent, useCallback, useState } from 'react';
-import { ModalResponsive } from '@alfalab/core-components/modal/responsive';
-import { Button } from '@alfalab/core-components/button';
-import { Input } from '@alfalab/core-components/input';
-import { FieldProps, Select } from '@alfalab/core-components/select';
-import { Field } from '@alfalab/core-components/select/components';
+import { ModalResponsive } from '@alfalab/core-components/modal/modern/responsive';
+import { Button } from '@alfalab/core-components/button/modern';
+import { Input } from '@alfalab/core-components/input/modern';
+import { FieldProps, Select } from '@alfalab/core-components/select/modern';
+import { Field } from '@alfalab/core-components/select/modern/components';
 
 import { Rating, RatingValueType } from '../Rating';
 import { iconStatus } from '../../pages/Cinematography';

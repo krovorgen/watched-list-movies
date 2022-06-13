@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Spinner } from '@alfalab/core-components/spinner';
+import { Spinner } from '@alfalab/core-components/spinner/modern';
 
 import styles from './GlobalLoader.module.scss';
 

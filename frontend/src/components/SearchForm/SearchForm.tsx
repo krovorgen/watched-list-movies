@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC, memo, useCallback, useMemo } from 'react';
 import debounce from 'lodash/debounce';
 
-import { Input } from '@alfalab/core-components/input';
+import { Input } from '@alfalab/core-components/input/modern';
 
 import styles from './SearchForm.module.scss';
 
