@@ -1,0 +1,11 @@
+@import "./src/scss/helpers/variables";
+@import "./src/scss/helpers/mixins";
+
+.root {
+  margin: 0 auto 32px;
+  max-width: 576px;
+}
+
+.input {
+  width: 100%;
+}

@@ -18,6 +18,7 @@ import { api, CinematographyType, DataType } from '../../api/api';
 import { GoHome } from '../../components/GoHome';
 import { EditContentModal } from '../../components/EditContentModal';
 import { GlobalLoader } from '../../components/GlobalLoader';
+import { SearchForm } from '../../components/SearchForm';
 
 import styles from './Cinematography.module.scss';
 
@@ -33,8 +34,9 @@ type Props = {
 };
 
 export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
+  const [searchValue, setSearchValue] = useState('');
   const [isLoadingContent, setIsLoadingContent] = useState(false);
-  const [content, setContent] = useState<DataType[]>([]);
+  let [content, setContent] = useState<DataType[]>([]);
   const [currentRow, setCurrentRow] = useState<DataType | null>(null);
 
   const [isAddContentModal, setIsAddContentModal] = useState(false);
@@ -53,8 +55,8 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
     [handleEditContent],
   );
 
-  const deleteCinematography = useCallback(async (id: string) => {
-    let result = window.confirm(`question`);
+  const deleteCinematography = useCallback(async (id: string, title: string) => {
+    const result = window.confirm(`Удалить ${title}?`);
     if (!result) return;
     try {
       await api.delete(id);
@@ -70,56 +72,59 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
     if (currentRow && !isEditContentModal) setCurrentRow(null);
   }, [currentRow, isEditContentModal]);
 
-  const moviesListMemo = useMemo(
-    () =>
-      content.length > 0 &&
-      content.map((row) => (
-        <Table.TRow className={styles.tr} key={row._id}>
-          <Table.TCell>{row.title}</Table.TCell>
-          <Table.TCell>
-            {row.statusText ? (
-              <Tooltip
-                content={row.statusText}
-                position="top"
-                view="hint"
-                targetClassName={styles.tooltip}>
-                {iconStatus[row.status]}
-              </Tooltip>
-            ) : (
-              iconStatus[row.status]
-            )}
-          </Table.TCell>
-          <Table.TCell>{row.status === 'complete' ? row.rating : `—`}</Table.TCell>
-          <Table.TCell>
-            {row.linkKinopoisk ? (
-              <a className={styles.link} href={row.linkKinopoisk} target="_blank" rel="noreferrer">
-                <img src={kinopoisk} width={20} height={20} alt="kinopoisk" />
-              </a>
-            ) : null}
-            {row.linkTikTok ? (
-              <a className={styles.link} href={row.linkTikTok} target="_blank" rel="noreferrer">
-                <img src={tiktok} width={20} height={20} alt="tiktok" />
-              </a>
-            ) : null}
-          </Table.TCell>
-          <Table.TCell className={styles.nav}>
-            <Button
-              size="xxs"
-              view="secondary"
-              onClick={() => editCinematography(row)}
-              rightAddons={<EditMBlackIcon />}
-            />
-            <Button
-              size="xxs"
-              view="primary"
-              rightAddons={<DeleteSWhiteIcon />}
-              onClick={() => deleteCinematography(row._id)}
-            />
-          </Table.TCell>
-        </Table.TRow>
-      )),
-    [content, editCinematography, deleteCinematography],
-  );
+  if (searchValue.trim() !== '') {
+    content = content.filter((article) =>
+      article.title.toLowerCase().includes(searchValue.toLowerCase()),
+    );
+  }
+
+  const moviesListMemo = useMemo(() => {
+    return content?.map((row) => (
+      <Table.TRow className={styles.tr} key={row._id}>
+        <Table.TCell>{row.title}</Table.TCell>
+        <Table.TCell>
+          {row.statusText ? (
+            <Tooltip
+              content={row.statusText}
+              position="top"
+              view="hint"
+              targetClassName={styles.tooltip}>
+              {iconStatus[row.status]}
+            </Tooltip>
+          ) : (
+            iconStatus[row.status]
+          )}
+        </Table.TCell>
+        <Table.TCell>{row.status === 'complete' ? row.rating : `—`}</Table.TCell>
+        <Table.TCell>
+          {row.linkKinopoisk ? (
+            <a className={styles.link} href={row.linkKinopoisk} target="_blank" rel="noreferrer">
+              <img src={kinopoisk} width={20} height={20} alt="kinopoisk" />
+            </a>
+          ) : null}
+          {row.linkTikTok ? (
+            <a className={styles.link} href={row.linkTikTok} target="_blank" rel="noreferrer">
+              <img src={tiktok} width={20} height={20} alt="tiktok" />
+            </a>
+          ) : null}
+        </Table.TCell>
+        <Table.TCell className={styles.nav}>
+          <Button
+            size="xxs"
+            view="secondary"
+            onClick={() => editCinematography(row)}
+            rightAddons={<EditMBlackIcon />}
+          />
+          <Button
+            size="xxs"
+            view="primary"
+            rightAddons={<DeleteSWhiteIcon />}
+            onClick={() => deleteCinematography(row._id, row.title)}
+          />
+        </Table.TCell>
+      </Table.TRow>
+    ));
+  }, [content, editCinematography, deleteCinematography]);
 
   useEffect(() => {
     (async () => {
@@ -146,6 +151,7 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
       <Button className={styles.add} block view="link" onClick={handleAddContent}>
         Добавить
       </Button>
+      <SearchForm setSearchValue={setSearchValue} />
       <Table>
         <Table.THead>
           <Table.THeadCell>Название</Table.THeadCell>
