@@ -1,4 +1,12 @@
-import React, { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  FC,
+  memo,
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { toast } from 'react-toastify';
 import { Typography } from '@alfalab/core-components/typography/modern';
 import { Tooltip } from '@alfalab/core-components/tooltip/modern';
@@ -53,6 +61,8 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
   let [data, setData] = useState<DataType[]>([]);
   const [currentRow, setCurrentRow] = useState<DataType | null>(null);
 
+  let defferedValue = useDeferredValue(searchValue);
+
   const [sortKey, setSortKey] = useState<SortTableValue | undefined>(undefined);
   const [isSortedDesc, setIsSortedDesc] = useState<boolean | undefined>(undefined);
   const handleSort = useCallback(
@@ -100,9 +110,9 @@ export const Cinematography: FC<Props> = memo(({ currentType, title }) => {
     if (currentRow && !isEditContentModal) setCurrentRow(null);
   }, [currentRow, isEditContentModal]);
 
-  if (searchValue.trim() !== '') {
+  if (defferedValue.trim() !== '') {
     data = data.filter((article) =>
-      article.title.toLowerCase().includes(searchValue.toLowerCase()),
+      article.title.toLowerCase().includes(defferedValue.toLowerCase()),
     );
   }
   const sortedData = useMemo(() => {

@@ -1,5 +1,4 @@
-import React, { ChangeEvent, FC, memo, useCallback, useMemo } from 'react';
-import debounce from 'lodash/debounce';
+import React, { ChangeEvent, FC, memo, useCallback } from 'react';
 
 import { Input } from '@alfalab/core-components/input/modern';
 
@@ -15,13 +14,9 @@ export const SearchForm: FC<Props> = memo(({ setSearchValue }) => {
     [setSearchValue],
   );
 
-  const debouncedResults = useMemo(() => {
-    return debounce(handleNewCardValue, 500);
-  }, [handleNewCardValue]);
-
   return (
     <div className={styles.root}>
-      <Input placeholder="Найти" size="s" block onChange={debouncedResults} required />
+      <Input placeholder="Найти" size="s" block onChange={handleNewCardValue} required />
     </div>
   );
 });
